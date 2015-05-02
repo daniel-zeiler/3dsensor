@@ -85,6 +85,11 @@ public class Java3dDetector {
     }
 
     public static void main(String[] args) {
+        
+        
+        
+        
+        
         /**
          *         input image from sensor;
         scan image for points;
