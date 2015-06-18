@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class weightedPoint extends Point {
 
     ArrayList<weightedPoint> connections;
-    int z;
+    int z = 0;
 
     public weightedPoint(int x, int y, int z) {
         super(x, y);
@@ -46,6 +46,10 @@ public class weightedPoint extends Point {
         } else {
             this.z = (int) ((this.y * rateOfY) + (this.x * rateOfX) / 2);
         }
+    }
+    
+    public void setZ(int z){
+        setZCoord(z);
     }
 
     protected void setZCoord(int z) {
