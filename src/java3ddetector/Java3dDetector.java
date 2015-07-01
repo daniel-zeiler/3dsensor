@@ -18,6 +18,8 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 /**
@@ -27,6 +29,7 @@ import javax.imageio.ImageIO;
 public class Java3dDetector {
 
     static ArrayList<weightedPoint> list = new ArrayList<>();
+    static Scanner in = new Scanner(System.in);
 
     protected static ArrayList getPointsFromImage(ArrayList list) throws IOException {
         BufferedImage bi = ImageIO.read(new File("filename.txt")); //Reads in the image
@@ -59,6 +62,54 @@ public class Java3dDetector {
     }
 
     public static void main(String[] args) {
+        boolean running = true;
+        Regression regressionModel = new Regression();
+        ImageCollection Images = new ImageCollection();
+        while(running){
+            if(!regressionModel.isSet()){ 
+                int numberTests = userEnterNumberOfTests();
+                for(int i = 0; i < numberTests; i++){
+                    int distanceMeasurement = userEnterDistanceMeasurement();
+                    for (Iterator<BufferedImage> it = Images.iterator(); it.hasNext();) {
+                        BufferedImage bufferImage = it.next();
+                        projectImage(bufferImage);
+                        BufferedImage detection = detectImage();
+                        regressionModel.detectPoints(detection);
+                        regressionModel.addData(i,distanceMeasurement,detection);
+                    }
+                }
+                regressionModel.save();
+                running=false;
+            }
+            threeDModel threeDModel = new threeDModel();
+            for (Iterator<BufferedImage> it = Images.iterator(); it.hasNext();){
+                BufferedImage bufferImage = it.next();
+                projectImage(bufferImage);
+                BufferedImage detection = detectImage();
+                threeDModel.updateModel(regressionModel);
+            }
+            threeDModel.display();
+            running = false;
+        }
+    }
+
+    private static int userEnterDistanceMeasurement() {
+      System.out.println("");
+        return Integer.parseInt(in.nextLine());
+    }
+
+    private static int userEnterNumberOfTests() {
+        System.out.println("");
+        return Integer.parseInt(in.nextLine());
+    }
+
+    private static void projectImage(BufferedImage bufferImage) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static BufferedImage detectImage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
         pointCollection pointCollect = new pointCollection();
         linearRegressionCollection linearRegressionCollection = new linearRegressionCollection();
         centroidCollection centroidCollect = new centroidCollection();
@@ -71,5 +122,9 @@ public class Java3dDetector {
         BufferedImage imageMap = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = imageMap.createGraphics();
         g2.drawImage(imageMap,0,0,null);
+    }
+
+    private static int userEnterDistanceMeasurement() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
