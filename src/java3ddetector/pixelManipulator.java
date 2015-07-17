@@ -13,21 +13,16 @@ import java.util.ArrayList;
  * @author dan
  */
 class pixelManipulator {
-
-    private static int width;
-    private static int height;
-    private static double pointXResolution;
-    private static double pointYResolution;
     private static final Color red = new Color(255, 0, 0);
     private static final Color green = new Color(0, 255, 0);
     private static final Color blue = new Color(0, 0, 255);
     private static final Color white = new Color(255, 255, 255);
-    private static ArrayList<WeightedPoint> redArrayList = new ArrayList();
-    private static ArrayList<WeightedPoint> greenArrayList = new ArrayList();
-    private static ArrayList<WeightedPoint> blueArrayList = new ArrayList();
-    private static ArrayList<WeightedPoint> whiteArrayList = new ArrayList();
+    private static final ArrayList<WeightedPoint> redArrayList = new ArrayList();
+    private static final ArrayList<WeightedPoint> greenArrayList = new ArrayList();
+    private static final ArrayList<WeightedPoint> blueArrayList = new ArrayList();
+    private static final ArrayList<WeightedPoint> whiteArrayList = new ArrayList();
 
-    pixelManipulator(FastRGB newRGB, int width, int height, int numberOfRows, int numberOfColumns, double amountOfSets) {
+    pixelManipulator(FastRGB newRGB, int width, int height) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 int currentColor = newRGB.getRGB(i, j);
@@ -49,7 +44,22 @@ class pixelManipulator {
         float dRed = threeDColor.getRed() - testColor.getRed();
         float dGreen = threeDColor.getGreen() - testColor.getGreen();
         float dBlue = threeDColor.getBlue() - testColor.getBlue();
-
         return Math.sqrt(dRed * dRed + dGreen * dGreen + dBlue * dBlue);
+    }
+    
+    public ArrayList<WeightedPoint> getRedPixels() {
+        return redArrayList;
+    }
+
+    public ArrayList<WeightedPoint> getGreenPixels() {
+        return greenArrayList;
+    }
+
+    public ArrayList<WeightedPoint> getBluePixels() {
+        return blueArrayList;
+    }
+
+    public ArrayList<WeightedPoint> getWhitePixels() {
+        return whiteArrayList;
     }
 }

@@ -9,6 +9,6 @@ package java3ddetector;
  *
  * @author dan
  */
-public class centroids {
+class Data {
     
 }

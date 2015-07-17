@@ -82,7 +82,8 @@ public class Java3dDetector {
                         projectImage(bufferImage);
                         BufferedImage currentImage = imageGrabber.getImage();
                         FastRGB newRGB = new FastRGB(currentImage);
-                        pixelManipulator pixelManip = new pixelManipulator(newRGB,currentImage.getWidth(),currentImage.getHeight(),numberOfRows,numberOfColumns,Images.getAmountOfSets());
+                        pixelManipulator pixelManip = new pixelManipulator(newRGB,currentImage.getWidth(),currentImage.getHeight());
+                        centroidCollection centroids = new centroidCollection(pixelManip);
                         //regressionModel.detectPoints(detection);
                         //regressionModel.addData(i,distanceMeasurement,detection);
                     }

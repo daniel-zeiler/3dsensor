@@ -5,10 +5,21 @@
  */
 package java3ddetector;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author dan
  */
 class centroidCollection {
+    private int numClusters;
+    private int totalData;
+    private double samples[][] = new double[][];
+    private static ArrayList<WeightedPoint> dataSet = new ArrayList<WeightedPoint>();
+    private static ArrayList<Centroid> centroids = new ArrayList<Centroid>();
+    
+    centroidCollection(pixelManipulator pixelManip,int numClusters, int totalData) {
+        
+    }
     
 }
