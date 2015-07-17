@@ -5,22 +5,18 @@
  */
 package java3ddetector;
 
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
-import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
@@ -31,16 +27,16 @@ public class Java3dDetector {
     static ArrayList<weightedPoint> list = new ArrayList<>();
     static Scanner in = new Scanner(System.in);
 
-    protected static ArrayList getPointsFromImage(ArrayList list) throws IOException {
+    /**protected static ArrayList getPointsFromImage(BufferedImage) throws IOException {
         BufferedImage bi = ImageIO.read(new File("filename.txt")); //Reads in the image
         int biWidth = bi.getWidth();
         int biHeight = bi.getHeight();
 
         //Color you are searching for
-        Color red = new Color(255,0,0);
-        Color blue = new Color(0,0,255);
-        Color green = new Color(0,255,0);
-        Color white = new Color(255,255,255);
+        Color baselineRed = new Color(255,0,0);
+        Color baselineBlue = new Color(0,0,255);
+        Color baselineGreen = new Color(0,255,0);
+        Color baselineWhitewhite = new Color(255,255,255);
         Color[] allColors = new Color[]{red,green,blue,white};
         ArrayList<Color> colorList = new ArrayList<>();
         colorList.addAll(Arrays.asList(allColors));
@@ -60,33 +56,49 @@ public class Java3dDetector {
         }
         return list;
     }
+    
+    protected static void getColorromImage(Color color, Color pixelColor){
+        
+    }*/
 
     public static void main(String[] args) {
+        CaptureImage imageGrabber = new CaptureImage();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double xResolution = screenSize.getWidth();
+        double yResolution = screenSize.getHeight();
+        int numberOfRows = 50;
+        int numberOfColumns = 50;
         boolean running = true;
         Regression regressionModel = new Regression();
-        ImageCollection Images = new ImageCollection();
+        ImageCollection Images = new ImageCollection(numberOfRows,numberOfColumns,xResolution,yResolution);
+        System.out.println(Images);
         while(running){
-            if(!regressionModel.isSet()){ 
+            if(!regressionModel.isSet()){
                 int numberTests = userEnterNumberOfTests();
                 for(int i = 0; i < numberTests; i++){
                     int distanceMeasurement = userEnterDistanceMeasurement();
                     for (Iterator<BufferedImage> it = Images.iterator(); it.hasNext();) {
                         BufferedImage bufferImage = it.next();
                         projectImage(bufferImage);
-                        BufferedImage detection = detectImage();
+                        BufferedImage currentImage = imageGrabber.getImage();
+                        FastRGB newRGB = new FastRGB(currentImage);
+                        pixelManipulator pixelManip = new pixelManipulator(newRGB,currentImage.getWidth(),currentImage.getHeight(),numberOfRows,numberOfColumns,Images.getAmountOfSets());
                         regressionModel.detectPoints(detection);
                         regressionModel.addData(i,distanceMeasurement,detection);
                     }
                 }
                 regressionModel.save();
+                System.out.println("initialization complete");
                 running=false;
             }
             threeDModel threeDModel = new threeDModel();
             for (Iterator<BufferedImage> it = Images.iterator(); it.hasNext();){
                 BufferedImage bufferImage = it.next();
                 projectImage(bufferImage);
-                BufferedImage detection = detectImage();
-                threeDModel.updateModel(regressionModel);
+                BufferedImage currentImage = imageGrabber.getImage();
+                FastRGB newRGB = new FastRGB(currentImage);
+                //BufferedImage detection = detectImage();
+                //threeDModel.updateModel(regressionModel);
             }
             threeDModel.display();
             running = false;
@@ -94,37 +106,20 @@ public class Java3dDetector {
     }
 
     private static int userEnterDistanceMeasurement() {
-      System.out.println("");
+      System.out.println("Please enter the the distance at this increments");
         return Integer.parseInt(in.nextLine());
     }
 
     private static int userEnterNumberOfTests() {
-        System.out.println("");
+        System.out.println("Please enter the number of tests you'd like to use");
         return Integer.parseInt(in.nextLine());
     }
 
     private static void projectImage(BufferedImage bufferImage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private static BufferedImage detectImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-        pointCollection pointCollect = new pointCollection();
-        linearRegressionCollection linearRegressionCollection = new linearRegressionCollection();
-        centroidCollection centroidCollect = new centroidCollection();
-        Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-        ArrayList<weightedPoint> projectionLists = new ArrayList<>();
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension dimension = toolkit.getScreenSize();
-        int height = dimension.height;
-        int width = dimension.width;
-        BufferedImage imageMap = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = imageMap.createGraphics();
-        g2.drawImage(imageMap,0,0,null);
-    }
-
-    private static int userEnterDistanceMeasurement() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JFrame frame = new JFrame();
+        frame.getContentPane().setLayout(new FlowLayout());
+        frame.getContentPane().add(new JLabel(new ImageIcon(bufferImage)));
+        frame.pack();
+        frame.setVisible(true);
     }
 }

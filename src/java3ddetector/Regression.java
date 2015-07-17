@@ -20,32 +20,33 @@ class Regression {
     private RegressionModels[][] regressions;
     
     public Regression(){
-        getDatasheet();
-        if(this.dataSheet!=null){
+        //getDatasheet();
+        if(true){
             for(int x = 0; x<xDim; x++){
                 for(int y = 0; y<yDim; y++){
                     for(int z = 0; z<xDim; z++){
-                        pointArray[xDim][yDim][zDim] = new Point(dataSheet.read(),dataSheet.Read());
+                       // pointArray[xDim][yDim][zDim] = new Point(dataSheet.read(),dataSheet.Read());
                     }
                 }
             }
             regressions = new RegressionModels[xDim][yDim];
-            regressions.buildRegressions();
+            //regressions.buildRegressions();
         }
     }
     
     public boolean isSet(){
-        return (datasheet != null);
+        //return (datasheet != null);
+        return true;
     }
     
-    public void getDataSheet(fileName){
+    /**public void getDataSheet(fileName){
     
     }
 
     boolean isSet() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+*/
     void detectPoints(BufferedImage detection) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

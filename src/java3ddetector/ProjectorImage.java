@@ -37,7 +37,7 @@ public class ProjectorImage {
     public ProjectorImage(int height,int width, int xResolution, int yResolution){
         this.yDimension=height;
         this.xDimension=width;
-        colorList.addAll(allColors.asList(allColors));
+        //colorList.addAll(allColors.asList(allColors));
         int leftPosition=0;
         int rightPosition=xDimension;
         int amountOfSets=(int) floor(this.yDimension / (2*(this.colorList.size() * xResolution)));
