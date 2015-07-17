@@ -83,8 +83,8 @@ public class Java3dDetector {
                         BufferedImage currentImage = imageGrabber.getImage();
                         FastRGB newRGB = new FastRGB(currentImage);
                         pixelManipulator pixelManip = new pixelManipulator(newRGB,currentImage.getWidth(),currentImage.getHeight(),numberOfRows,numberOfColumns,Images.getAmountOfSets());
-                        regressionModel.detectPoints(detection);
-                        regressionModel.addData(i,distanceMeasurement,detection);
+                        //regressionModel.detectPoints(detection);
+                        //regressionModel.addData(i,distanceMeasurement,detection);
                     }
                 }
                 regressionModel.save();
